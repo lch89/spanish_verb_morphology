@@ -6,25 +6,6 @@ from json_globals import *
 from spanish_irregulars import *
 # from test import * #TODO: Turn into JSON parsing specific things
 
-# SPANISH_CONJ_NAME = "Spanish_Conjugations.json"
-# SP_EN_INF_NAME = "Spanish_to_English_Infinitives.json"
-# EN_SP_INF_NAME = "English_to_Spanish_Infinitives.json"
-
-# en_sp_tenses = {"Present" : "Presente", "Preterite" : "Pretérito", "Future" : "Futuro", "Conditional" : "Condicional", "Imperfect" : "Imperfecto", "Present Progressive" : "Presente progresivo", "Perfect Past" : "Pretérito perfecto", "Perfect Present" : "Pluscuamperfecto", "Perfect Future" : "Futuro perfecto", "Conditional Perfect" : "Condicional perfecto", "Preterite (Archaic)" : "Pretérito anterior", "Present Subjunctive" : "Subjuntivo presente", "Imperfect Subjunctive -RA" : "Subjuntivo imperfecto -RA", "Imperfect Subjunctive -SE" : "Subjuntivo imperfecto -SE", "Future Subjunctive" : "Subjuntivo futuro", "Past Perfect Subjunctive" : "Subjuntivo pretérito perfecto", "Pluperfect Subjunctive -RA" : "Subjuntivo pluscuamperfecto -RA", "Pluperfect Subjunctive -SE" : "Subjuntivo pluscuamperfecto -SE", "Future Perfect Subjunctive" : "Subjuntivo futuro perfecto", "Imperative Affirmative" : "Imperativo positivo", "Imperative Negative" : "Imperativo negativo"}
-
-# sp_en_tenses = {"Presente" : "Present", "Pretérito" : "Preterite", "Futuro" : "Future", "Condicional" : "Conditional", "Imperfecto" : "Imperfect", "Presente progresivo" : "Present Progressive", "Pretérito perfecto" : "Perfect Past", "Pluscuamperfecto" : "Perfect Present", "Futuro perfecto" : "Perfect Future", "Condicional perfecto" : "Conditional Perfect", "Pretérito anterior" : "Preterite (Archaic)", "Subjuntivo presente" : "Present Subjunctive", "Subjuntivo imperfecto -RA" : "Imperfect Subjunctive -RA", "Subjuntivo imperfecto -SE" : "Imperfect Subjunctive -SE", "Subjuntivo futuro" : "Future Subjunctive", "Subjuntivo pretérito perfecto" : "Past Perfect Subjunctive", "Subjuntivo pluscuamperfecto -RA" : "Pluperfect Subjunctive -RA", "Subjuntivo pluscuamperfecto -SE" : "Pluperfect Subjunctive -SE", "Subjuntivo futuro perfecto" : "Future Perfect Subjunctive", "Imperativo positivo" : "Imperative Affirmative", "Imperativo negativo" : "Imperative Negative"}
-
-# en_sp_person = {FIRST_PERSON_SINGULAR : "yo", SECOND_PERSON_SINGULAR : "tu", THIRD_PERSON_SINGULAR : "el", FIRST_PERSON_PLURAL : "ns", SECOND_PERSON_PLURAL : "vs", THIRD_PERSON_PLURAL : "ellos"}
-
-# sp_en_person = {"yo" : FIRST_PERSON_SINGULAR, "tu" : SECOND_PERSON_SINGULAR, "el" : THIRD_PERSON_SINGULAR, "ns" : FIRST_PERSON_PLURAL, "vs" : SECOND_PERSON_PLURAL, "ellos" : THIRD_PERSON_PLURAL}
-
-# FIRST_PERSON_SINGULAR = "FIRST_PERSON_SINGULAR"
-# SECOND_PERSON_SINGULAR = "SECOND_PERSON_SINGULAR"
-# THIRD_PERSON_SINGULAR = "THIRD_PERSON_SINGULAR"
-# FIRST_PERSON_PLURAL = "FIRST_PERSON_PLURAL"
-# SECOND_PERSON_PLURAL = "SECOND_PERSON_PLURAL"
-# THIRD_PERSON_PLURAL = "THIRD_PERSON_PLURAL"
-
 class Conjugator():
 
 	def __init__(self):
@@ -37,10 +18,12 @@ class Conjugator():
 
 	def getTenses(self):
 		# self.conjugations.values().keys()
-		return set("Present", "Preterite", "Future", "Conditional", "Imperfect", "Present Progressive", "Perfect Past", "Perfect Present", "Perfect Future", "Conditional Perfect", "Preterite (Archaic)", "Present Subjunctive", "Imperfect Subjunctive -RA", "Imperfect Subjunctive -SE", "Future Subjunctive", "Past Perfect Subjunctive", "Pluperfect Subjunctive", "Pluperfect Subjunctive", "Future Perfect Subjunctive", "Imperative Affirmative", "Imperative Negative")
+		# return set("Present", "Preterite", "Future", "Conditional", "Imperfect", "Present Progressive", "Perfect Past", "Perfect Present", "Perfect Future", "Conditional Perfect", "Preterite (Archaic)", "Present Subjunctive", "Imperfect Subjunctive -RA", "Imperfect Subjunctive -SE", "Future Subjunctive", "Past Perfect Subjunctive", "Pluperfect Subjunctive", "Pluperfect Subjunctive", "Future Perfect Subjunctive", "Imperative Affirmative", "Imperative Negative")
+		return set(en_sp_tenses.keys())
 
 	def getPersons(self):
-		return set(FIRST_PERSON_SINGULAR, SECOND_PERSON_SINGULAR, THIRD_PERSON_SINGULAR, FIRST_PERSON_PLURAL, SECOND_PERSON_PLURAL, THIRD_PERSON_PLURAL)
+		# return set(FIRST_PERSON_SINGULAR, SECOND_PERSON_SINGULAR, THIRD_PERSON_SINGULAR, FIRST_PERSON_PLURAL, SECOND_PERSON_PLURAL, THIRD_PERSON_PLURAL)
+		return set(en_sp_person.keys())
 
 	def loadJson(self, file_path):
 		json_data = {}
@@ -52,25 +35,46 @@ class Conjugator():
 			json_data = json.load(f)
 			return json_data
 
+		print("File could not be read: {}".format(file_path))
+
 		return json_data
 	
 	# def englishToSpanish(self, eng_word, tense=None, person=None):
 	def englishToSpanish(self, eng_word, tense, person):
 		"""Given"""
 		verb = self.en_sp_inf.get(eng_word, "")
-		print(verb)
-		morph_verb = self.morphology.conjugate(verb, tense, person)
-		self.phonology.phonology(morph_verb, tense, person)
-		phon_verb = morph_verb
+		# print(verb)
 
-		print(phon_verb)
-		print("---")
-
-		return phon_verb
-
+		translated_verb = self.conjugateInfinitive(verb, tense, person)
 		#Morphology application
+		# morph_verb = self.morphology.conjugate(verb, tense, person)
+
+		# #Phonology application
+		# phon_verb = self.phonology.phonology(verb, morph_verb, tense, person)
+		# phon_verb = morph_verb
+
+		# print(translated_verb)
+		# print("---")
+
+		return translated_verb
+
+	def conjugateInfinitive(self, infinitive, tense, person):
+		"""Given"""		
+		#Morphology application
+		# print(infinitive)
+		morph_verb = self.morphology.conjugate(infinitive, tense, person)
+		# print(morph_verb)
 
 		#Phonology application
+		phon_verb = self.phonology.phonology(infinitive, morph_verb, tense, person)
+		# phon_verb = morph_verb
+
+		# print(phon_verb)
+		# print("---")
+
+		return phon_verb
+		
+		
 
 	# def morphology(self):
 	#   pass
@@ -89,13 +93,17 @@ class Morphology():
 
 	def conjugate(self, verb, tense, person):
 		"""Given the verb ending, tense, and person, conjugate the verb"""
+		#TODO: Account for reflexive verbs
+
+		#if reflexive then do a thing
+
 		conjugate_verb = verb
 		stem = verb[:-2]
 		ending = verb[-2:]
 
 		#Check for tense, then person, then ending
 		if tense==PRESENT:
-			print("Present tense")
+			# print("Present tense")
 			if person==FIRST_PERSON_SINGULAR:
 				conjugate_verb = stem+"o"
 			elif person==SECOND_PERSON_SINGULAR:
@@ -114,7 +122,7 @@ class Morphology():
 					conjugate_verb = stem+"e"
 			elif person==FIRST_PERSON_PLURAL:
 				if ending==AR_ENDING:
-					conjugate_verb = stem+"an"
+					conjugate_verb = stem+"amos"
 				elif ending==ER_ENDING:
 					conjugate_verb = stem+"emos"
 				elif ending==IR_ENDING:
@@ -297,28 +305,146 @@ class Phonology():
 	def __init__(self):
 		pass
 
-	def phonology(self, morph_verb, tense, person):
-		pass
+	def phonology(self, original_verb, morph_verb, tense, person):
+		phon_verb = morph_verb;
+		if tense==PRESENT:
+			#Find boot verbs 
+				# e->ie boots
+				# e->i boots
+				# o->ue boots
+				# -uir boots
+			#-cer verbs (Yo only)
+			#-ger and -gir verbs (Yo only)
+			#-eguir verbs
+
+			if (not person==FIRST_PERSON_PLURAL) and (not person==SECOND_PERSON_PLURAL):
+				phon_verb = self.bootCheck(original_verb, morph_verb, tense, person)
+			
+
+			# print("Present tense")			
+		elif tense==PRETERITE:
+			print("TODO: Implement {}".format(PRETERITE))
+		elif tense==FUTURE:
+			print("TODO: Implement {}".format(FUTURE))
+		elif tense==CONDITIONAL:
+			print("TODO: Implement {}".format(CONDITIONAL))
+		elif tense==IMPERFECT:
+			print("TODO: Implement {}".format(IMPERFECT))
+		elif tense==PRESENT_PROGRESSIVE:
+			print("TODO: Implement {}".format("Present Progressive"))
+		elif tense==PERFECT_PAST:
+			print("TODO: Implement {}".format("Perfect Past"))
+		elif tense==PERFECT_PRESENT:
+			print("TODO: Implement {}".format("Perfect Present"))
+		elif tense==PERFECT_FUTURE:
+			print("TODO: Implement {}".format("Perfect Future"))
+		elif tense==CONDITIONAL_PERFECT:
+			print("TODO: Implement {}".format("Conditional Perfect"))
+		elif tense==PRETERITE_ARCHAIC:
+			print("TODO: Implement {}".format("Preterite (Archaic)"))
+		elif tense==PRESENT_SUBJUNCTIVE:
+			print("{}".format("Present Subjunctive"))
+			subjunctive_stem = conjugate(verb, "Present", FIRST_PERSON_SINGULAR)[:-1]
+			if person==FIRST_PERSON_SINGULAR:
+				if ending==AR_ENDING:
+					conjugate_verb = subjunctive_stem+"e"
+				elif ending==ER_ENDING or ending==IR_ENDING:
+					conjugate_verb = subjunctive_stem+"a"
+			elif person==SECOND_PERSON_SINGULAR:
+				if ending==AR_ENDING:
+					conjugate_verb = subjunctive_stem+"es"
+				elif ending==ER_ENDING or ending==IR_ENDING:
+					conjugate_verb = subjunctive_stem+"as"
+			elif person==THIRD_PERSON_SINGULAR:
+				if ending==AR_ENDING:
+					conjugate_verb = subjunctive_stem+"e"
+				elif ending==ER_ENDING or ending==IR_ENDING:
+					conjugate_verb = subjunctive_stem+"a"
+			elif person==FIRST_PERSON_PLURAL:
+				if ending==AR_ENDING:
+					conjugate_verb = subjunctive_stem+"emos"
+				elif ending==ER_ENDING or ending==IR_ENDING:
+					conjugate_verb = subjunctive_stem+"amos"
+			elif person==SECOND_PERSON_PLURAL:
+				if ending==AR_ENDING:
+					conjugate_verb = subjunctive_stem+"éis"
+				elif ending==ER_ENDING or ending==IR_ENDING:
+					conjugate_verb = subjunctive_stem+"áis"
+			elif person==THIRD_PERSON_PLURAL:
+				if ending==AR_ENDING:
+					conjugate_verb = subjunctive_stem+"en"
+				elif ending==ER_ENDING or ending==IR_ENDING:
+					conjugate_verb = subjunctive_stem+"an"
+		elif tense==IMPERFECT_SUBJUNCTIVE_RA:
+			print("TODO: Implement {}".format("Imperfect Subjunctive -RA"))
+		elif tense==IMPERFECT_SUBJUNCTIVE_SE:
+			print("TODO: Implement {}".format("Imperfect Subjunctive -SE"))
+		elif tense==FUTURE_SUBJUNCTIVE:
+			print("TODO: Implement {}".format("Future Subjunctive"))
+		elif tense==PAST_PERFECT_SUBJUNCTIVE:
+			print("TODO: Implement {}".format("Past Perfect Subjunctive"))
+		elif tense==PLUPERFECT_SUBJUNCTIVE:
+			print("TODO: Implement {}".format("Pluperfect Subjunctive"))
+		elif tense==PLUPERFECT_SUBJUNCTIVE:
+			print("TODO: Implement {}".format("Pluperfect Subjunctive"))
+		elif tense==FUTURE_PERFECT_SUBJUNCTIVE:
+			print("TODO: Implement {}".format("Future Perfect Subjunctive"))
+		elif tense==IMPERATIVE_AFFIRMATIVE:
+			print("TODO: Implement {}".format("Imperative Affirmative"))
+		elif tense==IMPERATIVE_NEGATIVE:
+			print("TODO: Implement {}".format("Imperative Negative"))
+
+		return phon_verb;
+
+	def bootCheck(self, original_verb, morph_verb, tense, person):
+		
+		# e->ie boots
+		if(original_verb in ie_boots):
+			# print("Verb \'{}\' is an e->ie boot".format(original_verb))
+			#Find index of second-to-last e
+			to_change = original_verb.rfind("e",0,-2)
+			morph_verb = morph_verb[:to_change]+"ie"+morph_verb[to_change+1:]
+		# o->ue boots
+		elif(original_verb in ue_boots):
+			# print("Verb \'{}\' is an o->ue boot".format(original_verb))
+			to_change = original_verb.rfind("o",0,-2)
+			morph_verb = morph_verb[:to_change]+"ue"+morph_verb[to_change+1:]
+		# e->i boots
+		elif(original_verb in i_boots):
+			# print("Verb \'{}\' is an e->i boot".format(original_verb))
+			to_change = original_verb.rfind("e",0,-2)
+			morph_verb = morph_verb[:to_change]+"i"+morph_verb[to_change+1:]
+		#TODO: This can probably be replaced with a predictive rule
+		# -uir boots
+		elif(original_verb[-3:]=="uir"):
+			# print("Verb \'{}\' is an -uir boot".format(original_verb))
+			to_change = original_verb.rfind("u")
+			morph_verb = morph_verb[:to_change+1]+"y"+morph_verb[to_change+1:]
+		else:
+			print("Verb \'{}\' is NOT a boot".format(original_verb))
+
+		return morph_verb
 
 if __name__ == "__main__":
 	test = Conjugator()
-	test.englishToSpanish("to dance", PRESENT, FIRST_PERSON_SINGULAR)
-	test.englishToSpanish("to dance", PRESENT, SECOND_PERSON_SINGULAR)
-	test.englishToSpanish("to dance", PRESENT, THIRD_PERSON_SINGULAR)
-	test.englishToSpanish("to dance", PRESENT, FIRST_PERSON_PLURAL)
-	test.englishToSpanish("to dance", PRESENT, SECOND_PERSON_PLURAL)
-	test.englishToSpanish("to dance", PRESENT, THIRD_PERSON_PLURAL)
-	print("---------------")
-	test.englishToSpanish("to eat", PRESENT, FIRST_PERSON_SINGULAR)
-	test.englishToSpanish("to eat", PRESENT, SECOND_PERSON_SINGULAR)
-	test.englishToSpanish("to eat", PRESENT, THIRD_PERSON_SINGULAR)
-	test.englishToSpanish("to eat", PRESENT, FIRST_PERSON_PLURAL)
-	test.englishToSpanish("to eat", PRESENT, SECOND_PERSON_PLURAL)
-	test.englishToSpanish("to eat", PRESENT, THIRD_PERSON_PLURAL)
-	print("---------------")
-	test.englishToSpanish("to admit, accept, allow, recognize", PRESENT, FIRST_PERSON_SINGULAR)
-	test.englishToSpanish("to admit, accept, allow, recognize", PRESENT, SECOND_PERSON_SINGULAR)
-	test.englishToSpanish("to admit, accept, allow, recognize", PRESENT, THIRD_PERSON_SINGULAR)
-	test.englishToSpanish("to admit, accept, allow, recognize", PRESENT, FIRST_PERSON_PLURAL)
-	test.englishToSpanish("to admit, accept, allow, recognize", PRESENT, SECOND_PERSON_PLURAL)
-	test.englishToSpanish("to admit, accept, allow, recognize", PRESENT, THIRD_PERSON_PLURAL)
+	# print(len(test.conjugations.keys()))
+	# test.englishToSpanish("to dance", PRESENT, FIRST_PERSON_SINGULAR)
+	# test.englishToSpanish("to dance", PRESENT, SECOND_PERSON_SINGULAR)
+	# test.englishToSpanish("to dance", PRESENT, THIRD_PERSON_SINGULAR)
+	# test.englishToSpanish("to dance", PRESENT, FIRST_PERSON_PLURAL)
+	# test.englishToSpanish("to dance", PRESENT, SECOND_PERSON_PLURAL)
+	# test.englishToSpanish("to dance", PRESENT, THIRD_PERSON_PLURAL)
+	# print("---------------")
+	# test.englishToSpanish("to eat", PRESENT, FIRST_PERSON_SINGULAR)
+	# test.englishToSpanish("to eat", PRESENT, SECOND_PERSON_SINGULAR)
+	# test.englishToSpanish("to eat", PRESENT, THIRD_PERSON_SINGULAR)
+	# test.englishToSpanish("to eat", PRESENT, FIRST_PERSON_PLURAL)
+	# test.englishToSpanish("to eat", PRESENT, SECOND_PERSON_PLURAL)
+	# test.englishToSpanish("to eat", PRESENT, THIRD_PERSON_PLURAL)
+	# print("---------------")
+	# test.englishToSpanish("to admit, accept, allow, recognize", PRESENT, FIRST_PERSON_SINGULAR)
+	# test.englishToSpanish("to admit, accept, allow, recognize", PRESENT, SECOND_PERSON_SINGULAR)
+	# test.englishToSpanish("to admit, accept, allow, recognize", PRESENT, THIRD_PERSON_SINGULAR)
+	# test.englishToSpanish("to admit, accept, allow, recognize", PRESENT, FIRST_PERSON_PLURAL)
+	# test.englishToSpanish("to admit, accept, allow, recognize", PRESENT, SECOND_PERSON_PLURAL)
+	# test.englishToSpanish("to admit, accept, allow, recognize", PRESENT, THIRD_PERSON_PLURAL)
