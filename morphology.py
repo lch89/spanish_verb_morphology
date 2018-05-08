@@ -313,12 +313,15 @@ class Phonology():
 				# e->i boots
 				# o->ue boots
 				# -uir boots
+			if (not person==FIRST_PERSON_PLURAL) and (not person==SECOND_PERSON_PLURAL):
+				phon_verb = self.bootCheck(original_verb, morph_verb, tense, person)
+
+			if person==FIRST_PERSON_PLURAL:
+				pass
+
 			#-cer verbs (Yo only)
 			#-ger and -gir verbs (Yo only)
 			#-eguir verbs
-
-			if (not person==FIRST_PERSON_PLURAL) and (not person==SECOND_PERSON_PLURAL):
-				phon_verb = self.bootCheck(original_verb, morph_verb, tense, person)
 			
 
 			# print("Present tense")			
