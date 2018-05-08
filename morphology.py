@@ -234,7 +234,21 @@ class Morphology():
 				elif ending==ER_ENDING or ending==IR_ENDING:
 					conjugate_verb = stem+"ían"
 		elif tense==PRESENT_PROGRESSIVE:
-			print("TODO: Implement {}".format("Present Progressive"))
+			print("{}".format("Present Progressive"))
+			conjugate_verb = stem+"ando"
+
+			if person==FIRST_PERSON_SINGULAR:
+				conjugate_verb = "Estoy" + conjugate_verb
+			elif person==SECOND_PERSON_SINGULAR:
+				conjugate_verb = "Estás" + conjugate_verb
+			elif person==THIRD_PERSON_SINGULAR:
+				conjugate_verb = "Está" + conjugate_verb
+			elif person==FIRST_PERSON_PLURAL:
+				conjugate_verb = "Estamos" + conjugate_verb
+			elif person==SECOND_PERSON_PLURAL:
+				conjugate_verb = "Estáis" + conjugate_verb
+			elif person==THIRD_PERSON_PLURAL:
+				conjugate_verb = "Están" + conjugate_verb
 		elif tense==PERFECT_PAST:
 			print("TODO: Implement {}".format("Perfect Past"))
 		elif tense==PERFECT_PRESENT:
@@ -247,6 +261,8 @@ class Morphology():
 			print("TODO: Implement {}".format("Preterite (Archaic)"))
 		elif tense==PRESENT_SUBJUNCTIVE:
 			print("{}".format("Present Subjunctive"))
+			#TODO: Need to maintain irregularity
+			#Should be [conjugateInfinitive] instead of [conjugate]
 			subjunctive_stem = conjugate(verb, "Present", FIRST_PERSON_SINGULAR)[:-1]
 			if person==FIRST_PERSON_SINGULAR:
 				if ending==AR_ENDING:
@@ -283,7 +299,28 @@ class Morphology():
 		elif tense==IMPERFECT_SUBJUNCTIVE_SE:
 			print("TODO: Implement {}".format("Imperfect Subjunctive -SE"))
 		elif tense==FUTURE_SUBJUNCTIVE:
-			print("TODO: Implement {}".format("Future Subjunctive"))
+			print("{}".format("Future Subjunctive"))
+			#TODO: Need to maintain irregularity
+			#Should be [conjugateInfinitive] instead of [conjugate]
+			subjunctive_stem = conjugate(verb, PRETERITE, THIRD_PERSON_PLURAL)[:-3]
+
+			if person==FIRST_PERSON_SINGULAR or person==THIRD_PERSON_SINGULAR:
+				conjugate_verb = subjunctive_stem+"re"
+			elif person==SECOND_PERSON_SINGULAR:
+				conjugate_verb = subjunctive_stem+"res"
+			elif person==FIRST_PERSON_PLURAL:
+				#Add accent to last vowel
+				# "á"
+				# "é"
+				ending_vowel = subjunctive_stem[-1]
+				new_vowel = "á" if ending_vowel=="a" else "é"
+				
+				conjugate_verb = subjunctive_stem[:-1]+new_vowel+"remos"				
+				
+			elif person==SECOND_PERSON_PLURAL:
+				conjugate_verb = subjunctive_stem+"reis"
+			elif person==THIRD_PERSON_PLURAL:
+				conjugate_verb = subjunctive_stem+"ren"			
 		elif tense==PAST_PERFECT_SUBJUNCTIVE:
 			print("TODO: Implement {}".format("Past Perfect Subjunctive"))
 		elif tense==PLUPERFECT_SUBJUNCTIVE:
@@ -315,6 +352,9 @@ class Phonology():
 				# -uir boots
 			if (not person==FIRST_PERSON_PLURAL) and (not person==SECOND_PERSON_PLURAL):
 				phon_verb = self.bootCheck(original_verb, morph_verb, tense, person)
+
+			if person==FIRST_PERSON_SINGULAR:
+				phon_verb = self.irregFstSing(original_verb, morph_verb, tense, person)
 
 			if person==FIRST_PERSON_PLURAL:
 				pass
@@ -427,6 +467,54 @@ class Phonology():
 			print("Verb \'{}\' is NOT a boot".format(original_verb))
 
 		return morph_verb
+
+	def irregFstSing(self, original_verb, morph_verb, tense, person):
+		first_check = original_verb[-3:]
+		second_check = original_verb[-4:]
+
+		if(first_check=="ger" or first_check=="gir"):
+			print("Yo, present, \'ger\' or \'gir\'")
+			g_index = morph_verb.rfind("g")
+			morph_verb = morph_verb[:g_index]+"j"+morph_verb[g_index+1:]
+		elif(second_check=="guir"):
+			print("Yo, present, \'guir\'")
+			g_index = morph_verb.rfind("g")
+			morph_verb = morph_verb[:g_index]+"o"
+
+		# Unexplained irregulars
+		elif(original_verb=="caber"):
+			morph_verb = "quepo"
+		elif(original_verb=="caer"):
+			morph_verb = "caigo"
+		elif(original_verb=="conocer"):
+			morph_verb = "conozco"
+		elif(original_verb=="dar"):
+			morph_verb = "doy"
+		elif(original_verb=="hacer"):
+			morph_verb = "hago"
+		elif(original_verb=="poner"):
+			morph_verb = "pongo"
+		elif(original_verb=="saber"):
+			morph_verb = "sé"
+		elif(original_verb=="salir"):
+			morph_verb = "salgo"
+		elif(original_verb=="traducir"):
+			morph_verb = "traduzco"
+		elif(original_verb=="traer"):
+			morph_verb = "traigo"
+		elif(original_verb=="valer"):
+			morph_verb = "valgo"
+		elif(original_verb=="ver"):
+			morph_verb = "veo"
+		
+		return morph_verb
+
+	def verbHasPrefix(self, verb, stem):
+		#Check if base stem is located at the end of the provided verb
+		has_prefix = verb.rfind(stem,len(verb)-len(stem))
+		
+		# return has_prefix > 0
+		return has_prefix >= 0
 
 if __name__ == "__main__":
 	test = Conjugator()

@@ -68,19 +68,12 @@ def testVerb(verb, tense):
 	assertEquals(verb, tense, THIRD_PERSON_PLURAL)
 
 if __name__ == "__main__":
+	
+	testVerb("to dance", PRESENT)
+	testVerb("to eat", PRESENT)
+	testVerb("to admit, accept, allow, recognize", PRESENT)
 
-	# valid_reference = loadJson(SPANISH_CONJ_NAME)
-	# assertEquals(1,1)
-	# assertEquals(1,2)
-	# assertEquals("to dance", PRESENT, FIRST_PERSON_SINGULAR)
-	# assertEquals("to be", PRESENT, FIRST_PERSON_SINGULAR)
-	# assertEquals("to think", PRESENT, FIRST_PERSON_SINGULAR)
-	# assertEquals("to think", PRESENT, SECOND_PERSON_SINGULAR)
-	# assertEquals("to think", PRESENT, THIRD_PERSON_SINGULAR)
-	# assertEquals("to think", PRESENT, FIRST_PERSON_PLURAL)	
-	# assertEquals("to think", PRESENT, SECOND_PERSON_PLURAL)
-	# assertEquals("to think", PRESENT, THIRD_PERSON_PLURAL)
-	#########
+
 	testVerb("to think", PRESENT)
 	testVerb("to close, shut", PRESENT)
 	testVerb("to be able, can", PRESENT)
