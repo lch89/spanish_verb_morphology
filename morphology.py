@@ -13,8 +13,8 @@ class Conjugator():
 		self.conjugations = self.loadJson(SPANISH_CONJ_NAME) # For cross-checking
 		self.sp_en_inf = self.loadJson(SP_EN_INF_NAME)
 		self.en_sp_inf = self.loadJson(EN_SP_INF_NAME)
-		self.morphology = Morphology()
-		self.phonology = Phonology()
+		# self.morphology = Morphology()
+		# self.phonology = Phonology()
 
 	def getTenses(self):
 		# self.conjugations.values().keys()
@@ -45,13 +45,7 @@ class Conjugator():
 		verb = self.en_sp_inf.get(eng_word, "")
 		# print(verb)
 
-		translated_verb = self.conjugateInfinitive(verb, tense, person)
-		#Morphology application
-		# morph_verb = self.morphology.conjugate(verb, tense, person)
-
-		# #Phonology application
-		# phon_verb = self.phonology.phonology(verb, morph_verb, tense, person)
-		# phon_verb = morph_verb
+		translated_verb = self.conjugateInfinitive(verb, tense, person)		
 
 		# print(translated_verb)
 		# print("---")
@@ -62,11 +56,11 @@ class Conjugator():
 		"""Given"""		
 		#Morphology application
 		# print(infinitive)
-		morph_verb = self.morphology.conjugate(infinitive, tense, person)
+		morph_verb = self.morphology(infinitive, tense, person)
 		# print(morph_verb)
 
 		#Phonology application
-		phon_verb = self.phonology.phonology(infinitive, morph_verb, tense, person)
+		phon_verb = self.phonology(infinitive, morph_verb, tense, person)
 		# phon_verb = morph_verb
 
 		# print(phon_verb)
@@ -74,22 +68,10 @@ class Conjugator():
 
 		return phon_verb
 		
-		
-
-	# def morphology(self):
-	#   pass
-
-	# def phonology(self):
-	#   pass
-
-
-#Arbitrary sectioning of morphology for sake of keeping track of rules
-class Morphology():
-	def __init__(self):
-		pass
+##################### MORPHOLOGY CODE #####################	
 
 	def morphology(self, verb, tense, person):
-		pass
+		return self.conjugate(verb, tense, person)
 
 	def conjugate(self, verb, tense, person):
 		"""Given the verb ending, tense, and person, conjugate the verb"""
@@ -336,11 +318,7 @@ class Morphology():
 
 		return conjugate_verb
 
-
-#Arbitrary sectioning of phonology for sake of keeping track of rules
-class Phonology():
-	def __init__(self):
-		pass
+##################### PHONOLOGY CODE #####################
 
 	def phonology(self, original_verb, morph_verb, tense, person):
 		phon_verb = morph_verb;
