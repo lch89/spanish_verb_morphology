@@ -24,7 +24,7 @@ ie_boots = set([
 	"entender",
 	"encender",
 	"despertar",
-	# "despertarse",
+	"despertarse",
 	"defender",
 	"confesar",
 	"mentir",
@@ -57,7 +57,7 @@ ie_boots = set([
 	"recomendar",
 	"remendar",
 	"sentar",
-	# "sentar(se)",
+	"sentarse",
 	"sentir",
 	"sugerir",
 	"tener",
@@ -101,3 +101,7 @@ i_boots = set([
 	"concluir",
 	"diluir",
 ])
+
+i_soles = set(["sentir", "pedir", "reír", "sonreír"])
+
+u_soles = set(["dormir"])

@@ -57,6 +57,8 @@ def assertEquals(word, tense, person):
 		# print("Definition: \"{}\"".format(eng_word))
 		print("Should be: \"{},\" was \"{}\"".format(correct_word,test_word))
 
+	# print("---------------------------------------")
+
 	# assert  statement1==statement2, "{} and {} are not equal".format(statement1,statement2)
 
 def testVerb(verb, tense):
@@ -67,27 +69,83 @@ def testVerb(verb, tense):
 	assertEquals(verb, tense, SECOND_PERSON_PLURAL)
 	assertEquals(verb, tense, THIRD_PERSON_PLURAL)
 
+def testAll(tense):
+	for word in valid_reference.keys():
+		testVerb(word, tense)
+
 if __name__ == "__main__":
 	
-	testVerb("to dance", PRESENT)
-	testVerb("to eat", PRESENT)
-	testVerb("to admit, accept, allow, recognize", PRESENT)
+	# testVerb("to dance", PRESENT)
+	# testVerb("to eat", PRESENT)
+	# testVerb("to admit, accept, allow, recognize", PRESENT)
+
+	# testVerb("caber", PRESENT)
+	# testVerb("conocer", PRESENT)
+	# testVerb("poner", PRESENT)
+
+	# testVerb("caber",PRESENT)
+	# testVerb("caer",PRESENT)
+	# testVerb("conocer",PRESENT)
+
+	# testVerb("poner",PRESENT)
+	# testVerb("componer",PRESENT)
+
+	# testVerb("salir",PRESENT)
+	# testVerb("traducir",PRESENT)
+	# testVerb("traer",PRESENT)
+	# testVerb("valer",PRESENT)
+
+	# testVerb("ser", PRESENT)
+
+	# testVerb("despertarse", PRESENT)	
+	
 
 
-	testVerb("to think", PRESENT)
-	testVerb("to close, shut", PRESENT)
-	testVerb("to be able, can", PRESENT)
-	testVerb("to request, ask for", PRESENT)	
-	# testVerb("to recognize", PRESENT)
-	# testVerb("to choose, select, pick", PRESENT)
-	testVerb("to follow, continue", PRESENT)
-	testVerb("to build, construct", PRESENT)
-	# testVerb("ser")
-	# for(i=0;i<len([ie_boots]);i++):
-	# 	pass
-	for word in ie_boots:
-		testVerb(word, PRESENT)
-		print("--------------------")
+	# testVerb("to think", PRESENT)
+	# testVerb("to close, shut", PRESENT)
+	# testVerb("to be able, can", PRESENT)
+	# testVerb("to request, ask for", PRESENT)	
+	# # testVerb("to recognize", PRESENT)
+	# # testVerb("to choose, select, pick", PRESENT)
+	# testVerb("to follow, continue", PRESENT)
+	# testVerb("to build, construct", PRESENT)
+	# # testVerb("ser")
+	# # for(i=0;i<len([ie_boots]);i++):
+	# # 	pass
+	# for word in ie_boots:
+	# 	testVerb(word, PRESENT)
+	# 	print("--------------------")
+
+	# for word in valid_reference.keys():
+	# 	testVerb(word, PRESENT)
+		# print("--------------------")
+
+	testAll(PRESENT)
+
+	# print("--------------------")
+
+	# testVerb("sentir", PRETERITE)
+	# testVerb("pedir", PRETERITE)
+
+	# testVerb("sentir", PRETERITE)
+	# testVerb("pedir", PRETERITE)
+
+	# testVerb("reír", PRETERITE)
+	# testVerb("sonreír", PRETERITE)
+	# testVerb("dormir", PRETERITE)
+
+
+	# print("--------------------")
+
+	# testVerb("to dance", PRESENT_SUBJUNCTIVE)
+	# testVerb("to eat", PRESENT_SUBJUNCTIVE)
+	# testVerb("to admit, accept, allow, recognize", PRESENT_SUBJUNCTIVE)
+
+	# print("--------------------")
+
+	# testVerb("to dance", FUTURE_SUBJUNCTIVE)
+	# testVerb("to eat", FUTURE_SUBJUNCTIVE)
+	# testVerb("to admit, accept, allow, recognize", FUTURE_SUBJUNCTIVE)	
 
 
 	# ue_boots
