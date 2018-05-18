@@ -174,96 +174,6 @@ def createTable(tense):
 	
 
 if __name__ == "__main__":
-	
-	# testVerb("to dance", PRESENT)
-	# testVerb("to eat", PRESENT)
-	# testVerb("to admit, accept, allow, recognize", PRESENT)
-
-	# testVerb("caber", PRESENT)
-	# testVerb("conocer", PRESENT)
-	# testVerb("poner", PRESENT)
-
-	# testVerb("caber",PRESENT)
-	# testVerb("caer",PRESENT)
-	# testVerb("conocer",PRESENT)
-
-	# testVerb("poner",PRESENT)
-	# testVerb("componer",PRESENT)
-
-	# testVerb("salir",PRESENT)
-	# testVerb("traducir",PRESENT)
-	# testVerb("traer",PRESENT)
-	# testVerb("valer",PRESENT)
-
-	# testVerb("ser", PRESENT)
-
-	# testVerb("despertarse", PRESENT)	
-	
-
-
-	# testVerb("to think", PRESENT)
-	# testVerb("to close, shut", PRESENT)
-	# testVerb("to be able, can", PRESENT)
-	# testVerb("to request, ask for", PRESENT)	
-	# # testVerb("to recognize", PRESENT)
-	# # testVerb("to choose, select, pick", PRESENT)
-	# testVerb("to follow, continue", PRESENT)
-	# testVerb("to build, construct", PRESENT)
-	# # testVerb("ser")
-	# # for(i=0;i<len([ie_boots]);i++):
-	# # 	pass
-	# for word in ie_boots:
-	# 	testVerb(word, PRESENT)
-	# 	print("--------------------")
-
-	# for word in valid_reference.keys():
-	# 	testVerb(word, PRESENT)
-		# print("--------------------")
-
-	# testVerb("ser", PRESENT)
-	# testVerb("estar", PRESENT)
-	# testVerb("ir", PRESENT)
-	# testVerb("haber", PRESENT)
-
-	# testVerb("seguir", PRESENT)
-
-	# testAll(PRESENT)
-	# testAll(PRESENT_PROGRESSIVE)
-
-	# print("--------------------")
-
-	# testVerb("sentir", PRETERITE)
-	# testVerb("pedir", PRETERITE)
-
-	# testVerb("sentir", PRETERITE)
-	# testVerb("pedir", PRETERITE)
-
-	# testVerb("reír", PRETERITE)
-	# testVerb("sonreír", PRETERITE)
-	# testVerb("dormir", PRETERITE)
-
-	# testVerb("ser", PRETERITE)
-	# testVerb("dar", PRETERITE)
-	# testVerb("ir", PRETERITE)
-	# testVerb("ver", PRETERITE)
-
-	# testAll(PRETERITE)	
-
-	# print("--------------------")
-
-	# testVerb("to dance", PRESENT_SUBJUNCTIVE)
-	# testVerb("to eat", PRESENT_SUBJUNCTIVE)
-	# testVerb("to admit, accept, allow, recognize", PRESENT_SUBJUNCTIVE)
-
-	# print("--------------------")
-
-	# testVerb("to dance", FUTURE_SUBJUNCTIVE)
-	# testVerb("to eat", FUTURE_SUBJUNCTIVE)
-	# testVerb("to admit, accept, allow, recognize", FUTURE_SUBJUNCTIVE)	
-
-
-	# ue_boots
-	# i_boots
 
 	testAll(PRESENT)
 	testAll(PRETERITE)
@@ -274,22 +184,19 @@ if __name__ == "__main__":
 	testAll(PRESENT_SUBJUNCTIVE)
 	testAll(FUTURE_SUBJUNCTIVE)	
 
-
-
-
 	# createTable(PRESENT)
-	# print(PRESENT+"done")
+	# print(PRESENT+" done")
 	# createTable(PRETERITE)
-	# print(PRETERITE+"done")
+	# print(PRETERITE+" done")
 	# createTable(FUTURE)
-	# print(FUTURE+"done")
+	# print(FUTURE+" done")
 	# createTable(CONDITIONAL)
-	# print(CONDITIONAL+"done")
+	# print(CONDITIONAL+" done")
 	# createTable(IMPERFECT)
-	# print(IMPERFECT+"done")
+	# print(IMPERFECT+" done")
 	# createTable(PRESENT_PROGRESSIVE)
-	# print(PRESENT_PROGRESSIVE+"done")
+	# print(PRESENT_PROGRESSIVE+" done")
 	# createTable(PRESENT_SUBJUNCTIVE)
-	# print(PRESENT_SUBJUNCTIVE+"done")
+	# print(PRESENT_SUBJUNCTIVE+" done")
 	# createTable(FUTURE_SUBJUNCTIVE)	
-	# print(FUTURE_SUBJUNCTIVE+"done")
+	# print(FUTURE_SUBJUNCTIVE+" done")
