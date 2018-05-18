@@ -64,6 +64,8 @@ class Conjugator():
 		#Morphology application
 		verbose_print("Infinitive: {}".format(infinitive))
 
+		## Handle reflexive pronoun here to not interfer with other processes
+
 		reflexive_pronoun = ""
 
 		if infinitive[-2:] == "se":
@@ -79,16 +81,15 @@ class Conjugator():
 			elif person==SECOND_PERSON_PLURAL:
 				reflexive_pronoun = "os "
 			elif person==THIRD_PERSON_PLURAL:
-				reflexive_pronoun = "se "
-
-		# #Morphology application
-		# verbose_print("Infinitive: {}".format(infinitive))
+				reflexive_pronoun = "se "		
 
 		morph_verb = self.morphology(infinitive, tense, person)
 		verbose_print("Morphology: {}".format(reflexive_pronoun+morph_verb))
 
 		#Phonology application
 		phon_verb = self.phonology(infinitive, morph_verb, tense, person)
+
+		## Apply pronoun back
 		phon_verb = reflexive_pronoun+phon_verb
 		verbose_print("Phonology: {}".format(phon_verb))
 
@@ -103,9 +104,6 @@ class Conjugator():
 
 	def conjugate(self, verb, tense, person):
 		"""Given the verb ending, tense, and person, conjugate the verb"""
-		#TODO: Account for reflexive verbs
-
-		#if reflexive then do a thing
 
 		conjugate_verb = verb
 		stem = verb[:-2]
@@ -114,7 +112,9 @@ class Conjugator():
 		#Check for tense, then person, then ending
 		if tense==PRESENT:
 			debug_print("{} morphology".format(PRESENT))
-			if person==FIRST_PERSON_SINGULAR:
+			if verb in present_irreg:
+				conjugate_verb = self.conjugations[verb][tense][person]
+			elif person==FIRST_PERSON_SINGULAR:
 				conjugate_verb = stem+"o"
 			elif person==SECOND_PERSON_SINGULAR:
 				if ending==AR_ENDING:
@@ -153,7 +153,9 @@ class Conjugator():
 					conjugate_verb = stem+"en"
 		elif tense==PRETERITE:
 			debug_print("{} morphology".format(PRETERITE))
-			if person==FIRST_PERSON_SINGULAR:
+			if verb in preterite_irreg:
+				conjugate_verb = self.conjugations[verb][tense][person]
+			elif person==FIRST_PERSON_SINGULAR:
 				if ending==AR_ENDING:
 					conjugate_verb = stem+"é"
 				elif ending==ER_ENDING or ending==IR_ENDING:
@@ -185,7 +187,9 @@ class Conjugator():
 					conjugate_verb = stem+"ieron"
 		elif tense==FUTURE:
 			debug_print("{} morphology".format(FUTURE))
-			if person==FIRST_PERSON_SINGULAR:
+			if verb in future_irreg:
+				conjugate_verb = self.conjugations[verb][tense][person]
+			elif person==FIRST_PERSON_SINGULAR:
 				conjugate_verb = verb+"é"
 			elif person==SECOND_PERSON_SINGULAR:
 				conjugate_verb = verb+"ás"
@@ -245,20 +249,24 @@ class Conjugator():
 					conjugate_verb = stem+"ían"
 		elif tense==PRESENT_PROGRESSIVE:
 			debug_print("{} morphology".format(PRESENT_PROGRESSIVE))
-			conjugate_verb = stem+"ando"
+			if ending==AR_ENDING:
+				conjugate_verb = stem+"ando"
+			elif ending==ER_ENDING or ending==IR_ENDING:
+				conjugate_verb = stem+"endo"
+			# conjugate_verb = stem+"ando"
 
 			if person==FIRST_PERSON_SINGULAR:
-				conjugate_verb = "Estoy" + conjugate_verb
+				conjugate_verb = "estoy " + conjugate_verb
 			elif person==SECOND_PERSON_SINGULAR:
-				conjugate_verb = "Estás" + conjugate_verb
+				conjugate_verb = "estás " + conjugate_verb
 			elif person==THIRD_PERSON_SINGULAR:
-				conjugate_verb = "Está" + conjugate_verb
+				conjugate_verb = "está " + conjugate_verb
 			elif person==FIRST_PERSON_PLURAL:
-				conjugate_verb = "Estamos" + conjugate_verb
+				conjugate_verb = "estamos " + conjugate_verb
 			elif person==SECOND_PERSON_PLURAL:
-				conjugate_verb = "Estáis" + conjugate_verb
+				conjugate_verb = "estáis " + conjugate_verb
 			elif person==THIRD_PERSON_PLURAL:
-				conjugate_verb = "Están" + conjugate_verb
+				conjugate_verb = "están " + conjugate_verb
 		elif tense==PERFECT_PAST:
 			print("TODO: Implement {}".format(PERFECT_PAST))
 		elif tense==PERFECT_PRESENT:
@@ -375,7 +383,7 @@ class Conjugator():
 
 			# print("Present tense")			
 		elif tense==PRETERITE:
-			print("{} Phonology".format(PRETERITE))
+			debug_print("{} Phonology".format(PRETERITE))
 
 			if (person==THIRD_PERSON_SINGULAR) or (person==THIRD_PERSON_PLURAL):
 				phon_verb = self.soleCheck(original_verb, phon_verb, tense, person)
@@ -397,23 +405,25 @@ class Conjugator():
 			# 	"traer"
 
 		elif tense==FUTURE:
-			print("TODO: Implement {} Phonology".format(FUTURE))
+			debug_print("TODO: Implement {} Phonology".format(FUTURE))
+			self.irregFuture(original_verb, phon_verb, tense, person)
 		elif tense==CONDITIONAL:
-			print("TODO: Implement {} Phonology".format(CONDITIONAL))
+			debug_print("TODO: Implement {} Phonology".format(CONDITIONAL))
 		elif tense==IMPERFECT:
-			print("TODO: Implement {} Phonology".format(IMPERFECT))
+			debug_print("TODO: Implement {} Phonology".format(IMPERFECT))
 		elif tense==PRESENT_PROGRESSIVE:
-			print("TODO: Implement {} Phonology".format(PRESENT_PROGRESSIVE))
+			# print("TODO: Implement {} Phonology".format(PRESENT_PROGRESSIVE))
+			pass
 		elif tense==PERFECT_PAST:
-			print("TODO: Implement {} Phonology".format(PERFECT_PAST))
+			debug_print("TODO: Implement {} Phonology".format(PERFECT_PAST))
 		elif tense==PERFECT_PRESENT:
-			print("TODO: Implement {} Phonology".format(PERFECT_PRESENT))
+			debug_print("TODO: Implement {} Phonology".format(PERFECT_PRESENT))
 		elif tense==PERFECT_FUTURE:
-			print("TODO: Implement {} Phonology".format(PERFECT_FUTURE))
+			debug_print("TODO: Implement {} Phonology".format(PERFECT_FUTURE))
 		elif tense==CONDITIONAL_PERFECT:
-			print("TODO: Implement {} Phonology".format(CONDITIONAL_PERFECT))
+			debug_print("TODO: Implement {} Phonology".format(CONDITIONAL_PERFECT))
 		elif tense==PRETERITE_ARCHAIC:
-			print("TODO: Implement {} Phonology".format(PRETERITE_ARCHAIC))
+			debug_print("TODO: Implement {} Phonology".format(PRETERITE_ARCHAIC))
 		elif tense==PRESENT_SUBJUNCTIVE:
 			debug_print("{} Phonology".format(PRESENT_SUBJUNCTIVE))
 			# subjunctive_stem = conjugate(verb, "Present", FIRST_PERSON_SINGULAR)[:-1]
@@ -448,36 +458,36 @@ class Conjugator():
 			# 	elif ending==ER_ENDING or ending==IR_ENDING:
 			# 		conjugate_verb = subjunctive_stem+"an"
 		elif tense==IMPERFECT_SUBJUNCTIVE_RA:
-			print("TODO: Implement {} Phonology".format(IMPERFECT_SUBJUNCTIVE_RA))
+			debug_print("TODO: Implement {} Phonology".format(IMPERFECT_SUBJUNCTIVE_RA))
 		elif tense==IMPERFECT_SUBJUNCTIVE_SE:
-			print("TODO: Implement {} Phonology".format(IMPERFECT_SUBJUNCTIVE_SE))
+			debug_print("TODO: Implement {} Phonology".format(IMPERFECT_SUBJUNCTIVE_SE))
 		elif tense==FUTURE_SUBJUNCTIVE:
-			print("TODO: Implement {} Phonology".format(FUTURE_SUBJUNCTIVE))
+			debug_print("TODO: Implement {} Phonology".format(FUTURE_SUBJUNCTIVE))
 		elif tense==PAST_PERFECT_SUBJUNCTIVE:
-			print("TODO: Implement {} Phonology".format(PAST_PERFECT_SUBJUNCTIVE))
+			debug_print("TODO: Implement {} Phonology".format(PAST_PERFECT_SUBJUNCTIVE))
 		elif tense==PLUPERFECT_SUBJUNCTIVE:
-			print("TODO: Implement {} Phonology".format(PLUPERFECT_SUBJUNCTIVE))
+			debug_print("TODO: Implement {} Phonology".format(PLUPERFECT_SUBJUNCTIVE))
 		elif tense==PLUPERFECT_SUBJUNCTIVE:
-			print("TODO: Implement {} Phonology".format(PLUPERFECT_SUBJUNCTIVE))
+			debug_print("TODO: Implement {} Phonology".format(PLUPERFECT_SUBJUNCTIVE))
 		elif tense==FUTURE_PERFECT_SUBJUNCTIVE:
-			print("TODO: Implement {} Phonology".format(FUTURE_PERFECT_SUBJUNCTIVE))
+			debug_print("TODO: Implement {} Phonology".format(FUTURE_PERFECT_SUBJUNCTIVE))
 		elif tense==IMPERATIVE_AFFIRMATIVE:
-			print("TODO: Implement {} Phonology".format(IMPERATIVE_AFFIRMATIVE))
+			debug_print("TODO: Implement {} Phonology".format(IMPERATIVE_AFFIRMATIVE))
 		elif tense==IMPERATIVE_NEGATIVE:
-			print("TODO: Implement {} Phonology".format(IMPERATIVE_NEGATIVE))
+			debug_print("TODO: Implement {} Phonology".format(IMPERATIVE_NEGATIVE))
 
 		return phon_verb;
 
 	def bootCheck(self, original_verb, morph_verb, tense, person):
 		
 		# e->ie boots
-		if(original_verb in ie_boots):
+		if(original_verb in e_ie_boots):
 			# print("Verb \'{}\' is an e->ie boot".format(original_verb))
 			#Find index of second-to-last e
 			to_change = original_verb.rfind("e",0,-2)
 			morph_verb = morph_verb[:to_change]+"ie"+morph_verb[to_change+1:]
 		# o->ue boots
-		elif(original_verb in ue_boots):
+		elif(original_verb in o_ue_boots):
 			# print("Verb \'{}\' is an o->ue boot".format(original_verb))
 			to_change = original_verb.rfind("o",0,-2)
 			morph_verb = morph_verb[:to_change]+"ue"+morph_verb[to_change+1:]
@@ -486,6 +496,15 @@ class Conjugator():
 			# print("Verb \'{}\' is an e->i boot".format(original_verb))
 			to_change = original_verb.rfind("e",0,-2)
 			morph_verb = morph_verb[:to_change]+"i"+morph_verb[to_change+1:]
+		# u->ue boots
+		elif(original_verb in u_ue_boots):
+			# print("Verb \'{}\' is an o->ue boot".format(original_verb))
+			to_change = original_verb.rfind("u",0,-2)
+			morph_verb = morph_verb[:to_change]+"ue"+morph_verb[to_change+1:]
+		elif(original_verb in i_ie_boots):
+			# print("Verb \'{}\' is an o->ue boot".format(original_verb))
+			to_change = original_verb.rfind("i",0,-2)
+			morph_verb = morph_verb[:to_change]+"ie"+morph_verb[to_change+1:]
 		#TODO: This can probably be replaced with a predictive rule
 		# -uir boots
 		elif(original_verb[-3:]=="uir"):
@@ -498,17 +517,32 @@ class Conjugator():
 		return morph_verb
 
 	def irregPresentFstSing(self, original_verb, morph_verb, tense, person):
-		first_check = original_verb[-3:]
-		second_check = original_verb[-4:]
+		three_check = original_verb[-3:]
+		four_check = original_verb[-4:]
 
-		if(first_check=="ger" or first_check=="gir"):
+		if(three_check=="ger" or three_check=="gir"):
 			debug_print("Yo, present, \'ger\' or \'gir\'")
 			g_index = morph_verb.rfind("g")
 			morph_verb = morph_verb[:g_index]+"j"+morph_verb[g_index+1:]
-		elif(second_check=="guir"):
+		elif(four_check=="guir"):
+			# print("Rule used for {}",format(original_verb))
 			debug_print("Yo, present, \'guir\'")
-			g_index = morph_verb.rfind("g")
-			morph_verb = morph_verb[:g_index]+"o"
+			g_index = morph_verb.rfind("u")
+			morph_verb = morph_verb[:g_index]+morph_verb[g_index+1:]
+		elif(three_check=="cer" or three_check=="cir"):
+			debug_print("Yo, present, \'cer\' or \'cir\'")
+			preceding_letter = original_verb[-4]
+			if preceding_letter in consonants:
+				g_index = morph_verb.rfind("c")
+				morph_verb = morph_verb[:g_index]+"z"+morph_verb[g_index+1:]
+			elif preceding_letter in vowels:
+				g_index = morph_verb.rfind("c")
+				if original_verb in go_verbs:
+					morph_verb = morph_verb[:g_index]+"g"+morph_verb[g_index+1:]
+				else:
+					morph_verb = morph_verb[:g_index]+"zc"+morph_verb[g_index+1:]
+			else:
+				print("Invalid letter found: {}".format(preceding_letter))
 
 		# Unexplained irregulars
 		elif(self.verbHasPrefix(original_verb,"caber")):
@@ -538,6 +572,9 @@ class Conjugator():
 		elif(self.verbHasPrefix(original_verb,"hacer")):
 			prefix_loc = self.prefixLocation(original_verb,"hacer")
 			morph_verb = morph_verb[:prefix_loc] + "hago"
+		elif(self.verbHasPrefix(original_verb,"tener")):
+			prefix_loc = self.prefixLocation(original_verb,"tener")
+			morph_verb = morph_verb[:prefix_loc] + "tengo"
 		elif(original_verb=="ver"):
 			morph_verb = "veo"
 		elif(original_verb=="dar"):
@@ -555,31 +592,16 @@ class Conjugator():
 			# print("Verb \'{}\' is an e->ie boot".format(original_verb))
 			#Find index of second-to-last e
 			debug_print("e->i soles")
-			to_change = original_verb.rfind("e",0,-2)
-			# print(to_change)
-			# print(morph_verb[:to_change]) 
-			# print(morph_verb[to_change+1:])
-			# print(morph_verb[:to_change]+"i"+morph_verb[to_change+1:])
-			morph_verb = morph_verb[:to_change]+"i"+morph_verb[to_change+1:]
-			# print("Concatenated the thing")
-			# return morph_verb[:to_change]+"i"+morph_verb[to_change+1:]
+			to_change = original_verb.rfind("e",0,-2)			
+			morph_verb = morph_verb[:to_change]+"i"+morph_verb[to_change+1:]			
 		#o->u soles
 		elif(original_verb in u_soles):
 			debug_print("o->u soles")
 			# print("Verb \'{}\' is an o->ue boot".format(original_verb))
-			to_change = original_verb.rfind("o",0,-2)
-			# print(to_change)
-			# print(morph_verb[:to_change]) 
-			# print(morph_verb[to_change+1:])
-			# print(morph_verb[:to_change]+"u"+morph_verb[to_change+1:])
+			to_change = original_verb.rfind("o",0,-2)			
 			morph_verb = morph_verb[:to_change]+"u"+morph_verb[to_change+1:]
-			# print("Concatenated the thing")
-			# return morph_verb[:to_change]+"u"+morph_verb[to_change+1:]
 		else:
 			debug_print("Verb \'{}\' is NOT a sole".format(original_verb))
-
-		# print("Post sole")
-		# print(morph_verb)
 
 		return morph_verb
 
@@ -644,8 +666,27 @@ class Conjugator():
 		has_prefix = verb.rfind(stem,len(verb)-len(stem))
 		return has_prefix
 
-if __name__ == "__main__":
-	test = Conjugator()
+	def irregFuture(self, original_verb, morph_verb, tense, person):
+		ending = original_verb[-2:]
+		if ending==ER_ENDING:
+			to_change = original_verb.rfind("e")
+			separator = ""
+
+			#TODO: Figure out this condition
+			if True:
+				separator = "d"
+			
+			morph_verb = morph_verb[:to_change]+separator+morph_verb[to_change+1:]
+		if ending==IR_ENDING:
+			to_change = original_verb.rfind("i")
+			morph_verb = morph_verb[:to_change]+"d"+morph_verb[to_change+1:]
+
+
+		return morph_verb
+
+
+# if __name__ == "__main__":
+	# test = Conjugator()
 	# print(len(test.conjugations.keys()))
 	# test.englishToSpanish("to dance", PRESENT, FIRST_PERSON_SINGULAR)
 	# test.englishToSpanish("to dance", PRESENT, SECOND_PERSON_SINGULAR)
